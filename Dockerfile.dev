@@ -1,0 +1,21 @@
+FROM node:24-alpine
+
+#USER node
+
+RUN mkdir -p /home/usr/app
+
+WORKDIR /home/usr/app
+
+#COPY --chown=node:node package*.json ./
+
+COPY package*.json ./
+
+RUN npm install
+
+RUN npm install -g @nestjs/cli
+
+#COPY --chown=node:node . .
+
+COPY . .
+
+CMD ["npm", "run", "start:dev"]

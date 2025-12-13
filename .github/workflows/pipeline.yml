@@ -1,0 +1,32 @@
+name: Twym Connect
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  api:
+    uses: twymlab/twym-devops/.github/workflows/nodejs-base-pipeline.yml@main
+    with:
+      # Azure App Service names from GitHub environment variables
+      app_name_staging: ${{ vars.AZURE_APP_NAME_STAGING }}
+      app_name_production: ${{ vars.AZURE_APP_NAME_PRODUCTION }}
+
+      # Build output path (change to './dist' or './build' if needed)
+      package_path: "."
+
+      # Node.js version (optional, defaults to 20.x)
+      node_version: ${{ vars.NODE_VERSION || '20.x' }}
+
+      # Staging public variables
+      staging_vars: |
+        {
+          "NODE_ENV": "staging"
+        }
+
+    secrets:
+      # Azure publish profiles
+      AZURE_CREDENTIALS_STAGING: ${{ secrets.AZURE_CREDENTIALS_STAGING }}
+      AZURE_CREDENTIALS_PRODUCTION: ${{ secrets.AZURE_CREDENTIALS_PRODUCTION }}

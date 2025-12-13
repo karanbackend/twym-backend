@@ -1,0 +1,8 @@
+name: Twym Connect
+on:
+  pull_request:
+    branches:
+      - '*'
+jobs:
+  api:
+    uses: twymlab/twym-devops/.github/workflows/nodejs-base-ci.yml@main
